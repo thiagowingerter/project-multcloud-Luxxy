@@ -26,3 +26,7 @@ Abaixo podemos conferir um escopo inicial do projeto.
 - [ ] Missão 1 - Provisionar o ambiente cloud com Terraform (IAC)
 - [ ] Missão 2 - Efetuar o Deploy da aplicação
 - [ ] Missão 3 - Migrar os dados dos servidores on-premises para a cloud
+
+# Missão 1 - Provisionamento
+
+...
