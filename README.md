@@ -81,7 +81,7 @@ Abaixo podemos conferir um escopo inicial do projeto.
 - Baixe o arquivo mission1.zip no Google Cloud shell usando o comando wget
 
 ```shell
-wget https://tcb-public-events.s3.amazonaws.com/icp/mission1.zip
+wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/main/resources/mission-1/mission1.zip
 ```
 
 - Faça o upload do arquivo key.csv para o Cloud Shell usando o browser
