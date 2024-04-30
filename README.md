@@ -13,7 +13,7 @@ A empresa ficticia Luxxy precisou adicionar uma aplicação para registrar os ex
 O objetivo principal é migrar o ambiente on-premises (servidores de aplicação, storage e banco de dados) para um ambiente cloud. Para maior segurança o ambiente deve ser montado em multicloud com a Google Cloud Platform (GCP) ficando a cargo da aplicação e banco de  dados e a Amazon Web Services (AWS) para storage.
 Abaixo podemos conferir um escopo inicial do projeto.
 
-![Diagrama inicial projeto Luxxy cloud](resources/01-scopo-inicial.png)
+![Diagrama inicial projeto Luxxy cloud](resources/pictures/01-scopo-inicial.png)
 
 ## Considerações para o projeto
 
