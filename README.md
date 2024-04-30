@@ -29,4 +29,28 @@ Abaixo podemos conferir um escopo inicial do projeto.
 
 # Missão 1 - Provisionamento
 
-...
+### Criando contas de acesso nos provedores Cloud
+
+- Para criação no Google GCP basta seguir os passos indicados pelo próprio Google na opção *Comece a usar gratuitamente*. [GCP](https://cloud.google.com/).
+- Para criação na AWS basta seguir os passos em *Comece a usar gratuitamente*. [AWS](https://aws.amazon.com/pt/)
+
+*Importante ressaltar que será necessario cadastrar um cartão de crédito em ambos os casos. Seguindo a risca as indicações deste projeto, **NENHUM** custo irá ocorrer, pois vamos usar os créditos disponibilizados no periodo de teste.*
+
+## AWS
+
+### Criando um usúario para o Terraform usando IAM
+
+- Logue com sua nova criada. Na barra de pesquisas, digite IAM. Na seção Services, clique em IAM.
+- Clique em Users e em seguida Add users, insira o nome **terraform-pt-1** e clique em Next para criar o usuário do tipo programmatic.
+
+![IAM user](resources/02-IAM-user.png)
+
+- Após avançar, em Set permissions, clique no botão Attach existing policies directly.
+- Digite AmazonS3FullAccess em Search.
+- Selecione AmazonS3FullAccess
+
+![IAM policy](resources/03-IAM-policy.png)
+
+### Criando o a Access Key (Chave de Acesso) para o usuário terraform-pt-1 usando o serviço IAM
+
+
