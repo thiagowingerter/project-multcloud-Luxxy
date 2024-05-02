@@ -179,4 +179,35 @@ terraform apply
 
 # Missão 2 - Deploy da aplicação
 
+## AWS
+
+### IAM 
+
+- Acessar a console da AWS. Na barra de pesquisas, digite IAM. Na seção Services, clique em IAM.
+- Clique em Users e em seguida Add users, insira o nome luxxy-covid-testing-system-pt-app1 e clique em Next para criar o usuário do tipo programmatic.
+- Após avançar, em Set permissions, clique no botão Attach existing policies directly.
+- Digite AmazonS3FullAccess em Search.
+- Selecione AmazonS3FullAccess
+- Clique em Next
+- Revise todos os detalhes
+- Clique em Create user
+
+![IAM-M2](resources/pictures/09-IAM-m2-1.png)
+
+### Download chave de acesso
+
+- Acesse o usuário luxxy-covid-testing-system-pt-app1
+- Clique na aba Security credentials
+- Navegue até a seção Access keys
+- Clique em Create access key
+
+![IAM-M2-1](resources/pictures/10-AccesKey-m2-2.png)
+
+- Selecione Command Line Interface (CLI) e I understand the above recommendation and want to proceed to create an access key.
+- Clique em Next.
+- Clique em Create access key
+- Clique em Download .csv file
+- Após o download finalizar, clique em Done.
+- Com o download feito, renomeie o .csv para luxxy-covid-testing-system-pt-app1.csv
+
 
