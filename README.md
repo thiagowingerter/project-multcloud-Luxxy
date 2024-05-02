@@ -176,3 +176,163 @@ terraform apply
 - Como podemos observar no modelo abaixo o provisionamento do ambiente foi feito pelo TerraForm, ficando a cargo das proximas missões o Deploy da aplicação e migração de dados.
 
 ![Diagrama-missao-1](resources/pictures/08-scopo-m1-completo.png)
+
+# Missão 2 - Deploy da aplicação
+
+## AWS
+
+### IAM 
+
+- Acessar a console da AWS. Na barra de pesquisas, digite IAM. Na seção Services, clique em IAM.
+- Clique em Users e em seguida Add users, insira o nome luxxy-covid-testing-system-pt-app1 e clique em Next para criar o usuário do tipo programmatic.
+- Após avançar, em Set permissions, clique no botão Attach existing policies directly.
+- Digite AmazonS3FullAccess em Search.
+- Selecione AmazonS3FullAccess
+- Clique em Next
+- Revise todos os detalhes
+- Clique em Create user
+
+![IAM-M2](resources/pictures/09-IAM-m2-1.png)
+
+### Download chave de acesso
+
+- Acesse o usuário luxxy-covid-testing-system-pt-app1
+- Clique na aba Security credentials
+- Navegue até a seção Access keys
+- Clique em Create access key
+
+![IAM-M2-1](resources/pictures/10-AccesKey-m2-2.png)
+
+- Selecione Command Line Interface (CLI) e I understand the above recommendation and want to proceed to create an access key.
+- Clique em Next.
+- Clique em Create access key
+- Clique em Download .csv file
+- Após o download finalizar, clique em Done.
+- Com o download feito, renomeie o .csv para luxxy-covid-testing-system-pt-app1.csv
+
+## Google Cloud Platform (GCP)
+
+### Criando um user para Cloud SQL instance
+
+- Navegue até a Cloud SQL instance e crie um novo usuário: ***app*** com a senha: ***welcome123456*** no Cloud SQL MySQL database.
+- Se conecte ao Google Cloud Shell.
+
+### Fazendo download dos arquivos da missão 2
+
+Faça o download dos arquivos da missão 2 diretamente para o Cloud Shell usando o comando wget abaixo:
+
+```shell
+
+cd ~
+​
+wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/thiagowingerter-patch-v1.2.0/resources/mission-2/mission2.zip
+​
+unzip mission2.zip
+
+```
+
+- Verifique e copie o Public IP address de sua instância Cloud SQL em Overview.
+- Conecte ao MySQL DB em execução no Cloud SQL usando o Public IP address (assim que aparecer a janela para colocar a senha, insira ***welcome123456***). **Não esqueça de substituir o IP Público**
+
+![SQL-1](resources/pictures/11-SQL-1.png)
+
+```shell
+
+mysql --host=<subtituir_public_ip_cloudsql> --port=3306 -u app -p
+
+```
+
+- Após estar conectado ao banco de dados da instância, crie a tabela de produtos para testes.
+
+```bash
+
+use dbcovidtesting;
+​
+source ~/mission2/pt/db/create_table.sql
+​
+show tables;
+​
+exit;
+
+```
+
+- Habilite a Cloud Build API através do Cloud Shell.
+
+```bash
+
+gcloud services enable cloudbuild.googleapis.com
+
+```
+​
+- Faça o Build da Docker image e suba para o Google Container Registry. Por gentileza, substitua o **<PROJECT_ID>** com o ***My First Project ID***
+
+```bash
+
+GOOGLE_CLOUD_PROJECT_ID=$(gcloud config get-value project)
+​
+cd ~/mission2/pt/app
+​
+gcloud builds submit --tag gcr.io/$GOOGLE_CLOUD_PROJECT_ID/luxxy-covid-testing-system-app-pt
+
+```
+
+- Abra o Cloud Editor e edite o Kubernetes deployment file **(luxxy-covid-testing-system.yaml)** e atualize as variáveis abaixo na **linha 33** (em azul) com o seu ***<PROJECT_ID>*** no caminho da imagem Docker no Google Container Registry, na **linha 42** o AWS Bucket, AWS Keys (abrir o arquivo luxxy-covid-testing-system-pt-app1.csv e utilizar o Access key ID na **linha 44** e o Secret access key na **linha 46**) e o IP Privado do Cloud SQL Database na **linha 48**.
+
+```bash
+
+cd ~/mission2/pt/kubernetes
+luxxy-covid-testing-system.yaml
+
+				image: gcr.io/<PROJECT_ID>/luxxy-covid-testing-system-app-pt:latest
+...
+				- name: AWS_BUCKET
+          value: "luxxy-covid-testing-system-pdf-pt-xxxx"
+        - name: S3_ACCESS_KEY
+          value: "xxxxxxxxxxxxxxxxxxxxx"
+        - name: S3_SECRET_ACCESS_KEY
+          value: "xxxxxxxxxxxxxxxxxxxx"
+        - name: DB_HOST_NAME
+          value: "172.21.0.3"
+
+```
+
+- Se conecte ao GKE (Google Kubernetes Engine) cluster via Console
+
+![SQL-2](resources/pictures/12-GKE-1.png)
+
+![SQL-3](resources/pictures/13-GKE-2.png)
+
+- Faça o Deploy da aplicação COVID-19 Testing Status System no Cluster
+
+```bash
+
+cd ~/mission2/pt/kubernetes
+​
+kubectl apply -f luxxy-covid-testing-system.yaml
+
+```
+
+- Obtenha o IP Público e faça o teste da aplicação. Busque por GKE, clique em Workloads e em seguida Exposing Services endereço:porta
+
+![GKE-1](resources/pictures/14-GKE-3.png)
+
+![GKE-2](resources/pictures/15-GKE-4.png)
+
+- Você deverá ver a aplicação rodando! 
+
+![APP-1](resources/pictures/16-APP-1.png)
+
+- Com os passos devidamente efetuados esta terminado a missão 2 do projeto.
+
+## Etapas do projeto
+
+- [X] Missão 1 - Provisionar o ambiente cloud com Terraform (IAC)
+- [X] Missão 2 - Efetuar o Deploy da aplicação
+- [ ] Missão 3 - Migrar os dados dos servidores on-premises para a cloud
+
+- Como podemos observar no modelo abaixo o provisionamento do ambiente foi feito pelo TerraForm, além disso fizemos o deploy da aplicação criando um pod no GKE e configuramos o SQL. Para a próxima etapa fica trazermos os dados dos servidores on-premises para a nuvem.
+
+![Diagrama-missao-2](resources/pictures/17-scopo-m2-completo.png)
+
+
+
