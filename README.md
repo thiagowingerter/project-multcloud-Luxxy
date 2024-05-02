@@ -176,3 +176,7 @@ terraform apply
 - Como podemos observar no modelo abaixo o provisionamento do ambiente foi feito pelo TerraForm, ficando a cargo das proximas missões o Deploy da aplicação e migração de dados.
 
 ![Diagrama-missao-1](resources/pictures/08-scopo-m1-completo.png)
+
+# Missão 2 - Deploy da aplicação
+
+
