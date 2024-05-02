@@ -210,4 +210,133 @@ terraform apply
 - Após o download finalizar, clique em Done.
 - Com o download feito, renomeie o .csv para luxxy-covid-testing-system-pt-app1.csv
 
+## Google Cloud Platform (GCP)
+
+### Criando um user para Cloud SQL instance
+
+- Navegue até a Cloud SQL instance e crie um novo usuário: ***app*** com a senha: ***welcome123456*** no Cloud SQL MySQL database.
+- Se conecte ao Google Cloud Shell.
+
+### Fazendo download dos arquivos da missão 2
+
+Faça o download dos arquivos da missão 2 diretamente para o Cloud Shell usando o comando wget abaixo:
+
+```shell
+
+cd ~
+​
+wget https://tcb-public-events.s3.amazonaws.com/icp/mission2.zip
+​
+unzip mission2.zip
+
+```
+
+- Verifique e copie o Public IP address de sua instância Cloud SQL em Overview.
+- Conecte ao MySQL DB em execução no Cloud SQL usando o Public IP address (assim que aparecer a janela para colocar a senha, insira ***welcome123456***). **Não esqueça de substituir o IP Público**
+
+![SQL-1](resources/pictures/11-SQL-1.png)
+
+```shell
+
+mysql --host=<subtituir_public_ip_cloudsql> --port=3306 -u app -p
+
+```
+
+- Após estar conectado ao banco de dados da instância, crie a tabela de produtos para testes.
+
+```bash
+
+use dbcovidtesting;
+​
+source ~/mission2/pt/db/create_table.sql
+​
+show tables;
+​
+exit;
+
+```
+
+- Habilite a Cloud Build API através do Cloud Shell.
+
+```bash
+
+gcloud services enable cloudbuild.googleapis.com
+
+```
+​
+- Faça o Build da Docker image e suba para o Google Container Registry. Por gentileza, substitua o **<PROJECT_ID>** com o ***My First Project ID***
+
+```bash
+
+GOOGLE_CLOUD_PROJECT_ID=$(gcloud config get-value project)
+​
+cd ~/mission2/pt/app
+​
+gcloud builds submit --tag gcr.io/$GOOGLE_CLOUD_PROJECT_ID/luxxy-covid-testing-system-app-pt
+
+```
+
+- Abra o Cloud Editor e edite o Kubernetes deployment file **(luxxy-covid-testing-system.yaml)** e atualize as variáveis abaixo na **linha 33** (em azul) com o seu ***<PROJECT_ID>*** no caminho da imagem Docker no Google Container Registry, na **linha 42** o AWS Bucket, AWS Keys (abrir o arquivo luxxy-covid-testing-system-pt-app1.csv e utilizar o Access key ID na **linha 44** e o Secret access key na **linha 46**) e o IP Privado do Cloud SQL Database na **linha 48**.
+
+```bash
+
+cd ~/mission2/pt/kubernetes
+luxxy-covid-testing-system.yaml
+
+				image: gcr.io/<PROJECT_ID>/luxxy-covid-testing-system-app-pt:latest
+...
+				- name: AWS_BUCKET
+          value: "luxxy-covid-testing-system-pdf-pt-xxxx"
+        - name: S3_ACCESS_KEY
+          value: "xxxxxxxxxxxxxxxxxxxxx"
+        - name: S3_SECRET_ACCESS_KEY
+          value: "xxxxxxxxxxxxxxxxxxxx"
+        - name: DB_HOST_NAME
+          value: "172.21.0.3"
+
+```
+
+- Se conecte ao GKE (Google Kubernetes Engine) cluster via Console
+
+![SQL-2](resources/pictures/12-GKE-1.png)
+
+![SQL-3](resources/pictures/13-GKE-2.png)
+
+- Faça o Deploy da aplicação COVID-19 Testing Status System no Cluster
+
+```bash
+
+cd ~/mission2/pt/kubernetes
+​
+kubectl apply -f luxxy-covid-testing-system.yaml
+
+```
+
+- Obtenha o IP Público e faça o teste da aplicação. Busque por GKE, clique em Workloads e em seguida Exposing Services endereço:porta
+
+![GKE-1](resources/pictures/14-GKE-3.png)
+
+![GKE-2](resources/pictures/15-GKE-4.png)
+
+- Você deverá ver a aplicação rodando! 
+
+![APP-1](resources/pictures/16-APP-1.png)
+
+- ***(Opcional)*** Baixe um exemplo de teste de COVID e adicione na aplicação:
+
+[Exemplo](xxxxxxxxxxxx)
+
+- Com os passos devidamente efetuados esta terminado a missão 2 do projeto.
+
+## Etapas do projeto
+
+- [X] Missão 1 - Provisionar o ambiente cloud com Terraform (IAC)
+- [X] Missão 2 - Efetuar o Deploy da aplicação
+- [ ] Missão 3 - Migrar os dados dos servidores on-premises para a cloud
+
+- Como podemos observar no modelo abaixo o provisionamento do ambiente foi feito pelo TerraForm, além disso fizemos o deploy da aplicação criando um pod no GKE e configuramos o SQL. Para a próxima etapa fica trazermos os dados dos servidores on-premises para a nuvem.
+
+![Diagrama-missao-2](resources/pictures/17-scopo-m2-completo.png)
+
+
 
