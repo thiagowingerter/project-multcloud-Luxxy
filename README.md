@@ -80,7 +80,7 @@ Abaixo podemos conferir um escopo inicial do projeto.
 
 - Baixe o arquivo mission1.zip no Google Cloud shell usando o comando wget
 
-```shell
+```bash
 wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/main/resources/mission-1/mission1.zip
 ```
 
@@ -90,30 +90,30 @@ wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/main/resour
 
 - Verifique se os arquivos mission1.zip e key.csv estão na pasta no Cloud Shell usando o comando abaixo:
 
-```shell
+```bash
 ls -lt
 ```
 - Execute os comandos de preparação dos arquivos:
 
-```shell
+```bash
 unzip mission1.zip
 ```
 
-```shell
+```bash
 mv key.csv mission1/pt
 ```
 
-```shell
+```bash
 cd mission1/pt
 ```
 
-```shell
+```bash
 chmod +x *.sh
 ```
 
 - Execute os comandos abaixo para preparar o ambiente da AWS e GCP
 
-```shell
+```bash
 mkdir -p ~/.aws/
 ​
 touch ~/.aws/credentials_multiclouddeploy
@@ -128,13 +128,13 @@ gcloud config set project $GOOGLE_CLOUD_PROJECT_ID
 - Clique em Autorize.
 - Execute o comando abaixo para setar o projeto no Google Cloud Shell:
 
-```shell
+```bash
 ./gcp_set_project.sh
 ```
 
 - Execute os comandos para habilitar as APIs do Kubernetes, Container Registry e Cloud SQL
 
-```shell
+```bash
 gcloud services enable containerregistry.googleapis.com
 ​
 gcloud services enable container.googleapis.com
@@ -154,7 +154,7 @@ gcloud services enable servicenetworking.googleapis.com --project=$GOOGLE_CLOUD_
 
 - Execute os seguintes comandos para provisionar os recursos de infraestrutura:
 
-```shell
+```bash
 cd ~/mission1/pt/terraform/
 ​
 terraform init
@@ -221,7 +221,7 @@ terraform apply
 
 Faça o download dos arquivos da missão 2 diretamente para o Cloud Shell usando o comando wget abaixo:
 
-```shell
+```bash
 
 cd ~
 ​
@@ -236,7 +236,7 @@ unzip mission2.zip
 
 ![SQL-1](resources/pictures/11-SQL-1.png)
 
-```shell
+```bash
 
 mysql --host=<subtituir_public_ip_cloudsql> --port=3306 -u app -p
 
