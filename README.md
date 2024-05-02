@@ -225,7 +225,7 @@ Faça o download dos arquivos da missão 2 diretamente para o Cloud Shell usando
 
 cd ~
 ​
-wget https://tcb-public-events.s3.amazonaws.com/icp/mission2.zip
+wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/thiagowingerter-patch-v1.2.0/resources/mission-2/mission2.zip
 ​
 unzip mission2.zip
 
@@ -321,10 +321,6 @@ kubectl apply -f luxxy-covid-testing-system.yaml
 - Você deverá ver a aplicação rodando! 
 
 ![APP-1](resources/pictures/16-APP-1.png)
-
-- ***(Opcional)*** Baixe um exemplo de teste de COVID e adicione na aplicação:
-
-[Exemplo](xxxxxxxxxxxx)
 
 - Com os passos devidamente efetuados esta terminado a missão 2 do projeto.
 
