@@ -336,5 +336,83 @@ kubectl apply -f luxxy-covid-testing-system.yaml
 
 # Missão 3 - Migração de dados e ajustes finais
 
+## Migração do Banco de Dados MySQL
 
+- Conectar ao Google Cloud Shell
+- Download o dump do banco de dados usando o comando wget
 
+```bash
+cd ~
+​
+wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/thiagowingerter-patch-v0.3.0-alpha/resources/mission-3/mission3.zip
+​
+unzip mission3.zip
+
+```
+
+- Conecte ao MySQL DB em execução no Cloud SQL usando o Public IP address (assim que aparecer a janela para colocar a senha, insira welcome123456). **Não esqueça de substituir o IP Público**.
+
+```bash
+
+mysql --host=<subtituir_public_ip_cloudsql> --port=3306 -u app -p
+
+```
+
+- Importar o dump do banco de dados no Cloud SQL
+
+```bash
+
+use dbcovidtesting;
+​
+source ~/mission3/pt/db/db_dump.sql
+
+```
+
+- Checar se os dados foram importados com sucesso
+
+```bash
+
+select * from records;
+​
+exit;
+
+```
+
+## Amazon Web Services
+
+### Migração dos arquivos PDF
+
+- Conectar no AWS Cloud Shell
+- Download dos arquivos PDF (Comprovante de teste negativo escaneado em PDF)
+
+```bash
+
+wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/thiagowingerter-patch-v0.3.0-alpha/resources/mission-3/pdf-data/mission3.zip
+
+unzip mission3.zip
+
+```
+
+- Sincronizar os arquivos PDF com o seu bucket criado no AWS S3 usado para o COVID-19 Testing Status System. **Altere o nome do bucket para o seu bucket**.
+
+```bash
+
+cd mission3/pt/pdf_files
+​
+aws s3 sync . s3://luxxy-covid-testing-system-pdf-pt-xxxx
+
+```
+
+- Testar a aplicação. Ao testar a aplicação e navegar na opção "Ver registros" você deverá ser capaz de visualizar os dados importados!
+
+![APP FUll](resources/pictures/18-app-m3-1.png)
+
+- **Parabéns**! Concluimos uma migração de uma aplicação e seu banco de dados do "on-premises" para uma Arquitetura MultiCloud usando AWS e GCP!
+
+## Etapas do projeto
+
+- [X] Missão 1 - Provisionar o ambiente cloud com Terraform (IAC)
+- [X] Missão 2 - Efetuar o Deploy da aplicação
+- [X] Missão 3 - Migrar os dados dos servidores on-premises para a cloud
+
+![Final Scope](resources/pictures/19-scope-m3-2.png)
