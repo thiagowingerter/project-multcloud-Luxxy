@@ -82,6 +82,7 @@ Abaixo podemos conferir um escopo inicial do projeto.
 
 ```bash
 wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/main/resources/mission-1/mission1.zip
+
 ```
 
 - Faça o upload do arquivo key.csv para o Cloud Shell usando o browser
@@ -225,7 +226,7 @@ Faça o download dos arquivos da missão 2 diretamente para o Cloud Shell usando
 
 cd ~
 ​
-wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/thiagowingerter-patch-v1.2.0/resources/mission-2/mission2.zip
+wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/main/resources/mission-2/mission2.zip
 ​
 unzip mission2.zip
 
@@ -344,7 +345,7 @@ kubectl apply -f luxxy-covid-testing-system.yaml
 ```bash
 cd ~
 ​
-wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/thiagowingerter-patch-v0.3.0-alpha/resources/mission-3/mission3.zip
+wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/main/resources/mission-3/mission3.zip
 ​
 unzip mission3.zip
 
@@ -387,7 +388,7 @@ exit;
 
 ```bash
 
-wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/thiagowingerter-patch-v0.3.0-alpha/resources/mission-3/pdf-data/mission3.zip
+wget https://github.com/thiagowingerter/project-multcloud-Luxxy/blob/main/resources/mission-3/pdf-data/mission3.zip
 
 unzip mission3.zip
 
