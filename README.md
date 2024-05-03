@@ -417,3 +417,5 @@ aws s3 sync . s3://luxxy-covid-testing-system-pdf-pt-xxxx
 - [X] Missão 3 - Migrar os dados dos servidores on-premises para a cloud
 
 ![Final Scope](resources/pictures/19-scope-m3-2.png)
+
+[comment]: # (Para futura referencia, criar um explicativo de como destruir o ambiente após os testes.)
